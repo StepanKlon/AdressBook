@@ -1,0 +1,37 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = "Update Page";
+}
+
+<form asp-controller="Home" asp-action="Edit" method="post">
+    <div class="mb-3 mt-3">
+        <label for="firstName" class="form-label">First name:</label>
+        <input type="text" class="form-control" id="firstName" placeholder="Enter first name" asp-for="FirstName">
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="lastName" class="form-label">Last name:</label>
+        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" asp-for="LastName">
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="dateOfBirth" class="form-label">Date of birth:</label>
+        <input type="date" class="form-control" id="dateOfBirth" placeholder="Enter date of birth" asp-for="DateOfBirth">
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="adress" class="form-label">Adress:</label>
+        <input type="text" class="form-control" id="adress" placeholder="Enter adress" asp-for="Adress">
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="phoneNumber" class="form-label">Phone number:</label>
+        <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter phone number" asp-for="PhoneNumber">
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" asp-for="Email">
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="comment">Comments:</label>
+        <textarea class="form-control" rows="5" id="comment" asp-for="Comment"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
