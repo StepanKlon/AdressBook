@@ -17,8 +17,6 @@ namespace AdressBook.Services
         {
             try
             {
-                if (contact == null)
-                    return false;
                 var isAdded = await _unitOfWork.Contacts.Add(new Contact(contact));
                 await _unitOfWork.CompleteAsync();
                 return isAdded;
