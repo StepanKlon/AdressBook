@@ -15,11 +15,18 @@ namespace AdressBook.Services
 
         public async Task<bool> AddContactAsync(ContactViewModel contact)
         {
-            if (contact == null)
+            try
+            {
+                if (contact == null)
+                    return false;
+                var isAdded = await _unitOfWork.Contacts.Add(new Contact(contact));
+                await _unitOfWork.CompleteAsync();
+                return isAdded;
+            }
+            catch (Exception)
+            {
                 return false;
-            var isAdded = await _unitOfWork.Contacts.Add(new Contact(contact));
-            await _unitOfWork.CompleteAsync();
-            return isAdded;
+            }
         }
 
         public async Task<IEnumerable<Contact>> GetAllContactAsync()

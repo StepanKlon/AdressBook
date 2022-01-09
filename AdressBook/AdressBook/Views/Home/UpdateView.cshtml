@@ -6,11 +6,11 @@
 <form asp-controller="Home" asp-action="Edit" method="post">
     <div class="mb-3 mt-3">
         <label for="firstName" class="form-label">First name:</label>
-        <input type="text" class="form-control" id="firstName" placeholder="Enter first name" asp-for="FirstName">
+        <input type="text" class="form-control" id="firstName" placeholder="Enter first name" asp-for="FirstName" required>
     </div>
     <div class="mb-3 mt-3">
         <label for="lastName" class="form-label">Last name:</label>
-        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" asp-for="LastName">
+        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" asp-for="LastName" required>
     </div>
     <div class="mb-3 mt-3">
         <label for="dateOfBirth" class="form-label">Date of birth:</label>
@@ -22,7 +22,7 @@
     </div>
     <div class="mb-3 mt-3">
         <label for="phoneNumber" class="form-label">Phone number:</label>
-        <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter phone number" asp-for="PhoneNumber">
+        <input type="text" class="form-control" id="phoneNumber" placeholder="Enter phone number" asp-for="PhoneNumber">
     </div>
     <div class="mb-3 mt-3">
         <label for="email" class="form-label">Email:</label>

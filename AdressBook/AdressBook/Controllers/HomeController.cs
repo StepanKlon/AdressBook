@@ -3,6 +3,7 @@ using AdressBook.Models;
 using AdressBook.Models.Entities;
 using AdressBook.Models.ViewModels;
 using AdressBook.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -44,7 +45,7 @@ namespace AdressBook.Controllers
             return View("ContactView", new ContactViewModel(contact));
         }
 
-        [HttpPost("/contacts/delete/{id}")]
+        [HttpPost("/contacts/{id}/delete")]
         public async Task<IActionResult> Delete(long id)
         {
             var isRemoved = await _contactService.RemoveContact(id);
@@ -53,7 +54,7 @@ namespace AdressBook.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("/contacts/edit/{id}")]
+        [HttpGet("/contacts/{id}/edit")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id is null || id == 0)
@@ -65,9 +66,11 @@ namespace AdressBook.Controllers
             return View("UpdateView", new ContactViewModel(contact));
         }
 
-        [HttpPost("/contacts/edit/{id}")]
+        [HttpPost("/contacts/{id}/edit")]
         public async Task<IActionResult> Edit(ContactViewModel model)
         {
+            if (!ModelState.IsValid)
+                return View("Error");
             bool result;
             if (model.Id > 0)
             {
