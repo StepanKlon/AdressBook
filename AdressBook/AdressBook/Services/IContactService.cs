@@ -9,7 +9,7 @@ namespace AdressBook.Services
         IEnumerable<Contact> GetAllContact(string name);
         Task<Contact?> GetContactAsync(long id);
         Task<bool> AddContactAsync(ContactViewModel contact);
-        Task<bool> RemoveContact(long id);
-        Task<bool> UpdateContact(ContactViewModel model);
+        Task<bool> RemoveContactAsync(long id);
+        Task<bool> UpdateContactAsync(ContactViewModel model);
     }
 }

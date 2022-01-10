@@ -6,7 +6,8 @@ namespace AdressBook.Data
     {
         public static void CreateBasicData(AppDbContext context)
         {
-            var contact = new Contact {
+            var contact = new Contact
+            {
                 FirstName = "Stepan",
                 LastName = "Klon",
                 Adress = "Korytná 401, 68752 Korytná",

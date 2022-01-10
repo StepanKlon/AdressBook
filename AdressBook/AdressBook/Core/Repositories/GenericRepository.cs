@@ -30,9 +30,16 @@ namespace AdressBook.Core.Repositories
             }
         }
 
-        public async Task<IEnumerable<T>?> All()
+        public async Task<IEnumerable<T>> All()
         {
-            return await dbSet.ToListAsync();
+            try
+            {
+                return await dbSet.ToListAsync();
+            }
+            catch (Exception)
+            {
+                return new List<T>();
+            }
         }
 
         public bool Delete(T entity)
@@ -40,9 +47,9 @@ namespace AdressBook.Core.Repositories
             try
             {
                 var result = dbSet.Remove(entity);
-                if (result is not null)
-                    return true;
-                return false;
+                if (result is null)
+                    return false;
+                return true;
             }
             catch (Exception)
             {

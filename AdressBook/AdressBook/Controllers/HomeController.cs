@@ -48,7 +48,7 @@ namespace AdressBook.Controllers
         [HttpPost("/contacts/{id}/delete")]
         public async Task<IActionResult> Delete(long id)
         {
-            var isRemoved = await _contactService.RemoveContact(id);
+            var isRemoved = await _contactService.RemoveContactAsync(id);
             if (!isRemoved)
                 return View("Error");
             return RedirectToAction("Index");
@@ -74,7 +74,7 @@ namespace AdressBook.Controllers
             bool result;
             if (model.Id > 0)
             {
-                result = await _contactService.UpdateContact(model);
+                result = await _contactService.UpdateContactAsync(model);
             }
             else
             {

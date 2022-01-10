@@ -12,9 +12,16 @@ namespace AdressBook.Core.Repositories
 
         public IEnumerable<Contact> All(string search)
         {
-            return context.Contacts.Where(c=>
-            c.FirstName.ToLower().Contains(search.ToLower()) ||
-            c.LastName.ToLower().Contains(search.ToLower()));
+            try
+            {
+                return context.Contacts.Where(c =>
+                    c.FirstName.ToLower().Contains(search.ToLower()) ||
+                    c.LastName.ToLower().Contains(search.ToLower()));
+            }
+            catch (Exception)
+            {
+                return new List<Contact>();
+            }
         }
     }
 }

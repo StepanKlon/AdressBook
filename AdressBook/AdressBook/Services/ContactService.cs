@@ -29,19 +29,12 @@ namespace AdressBook.Services
 
         public async Task<IEnumerable<Contact>> GetAllContactAsync()
         {
-            var contacts = await _unitOfWork.Contacts.All();
-            IEnumerable<Contact> emptyContacts = new List<Contact>();
-            if (contacts is null)
-                return emptyContacts;
-            return contacts;
+           return await _unitOfWork.Contacts.All();
         }
 
         public IEnumerable<Contact> GetAllContact(string name)
         {
-            var contacts = _unitOfWork.Contacts.All(name);
-            if (contacts is null || contacts.Count() == 0)
-                return new List<Contact>();
-            return contacts;
+            return _unitOfWork.Contacts.All(name);
         }
 
         public async Task<Contact?> GetContactAsync(long id)
@@ -49,7 +42,7 @@ namespace AdressBook.Services
             return await _unitOfWork.Contacts.GetById(id);
         }
 
-        public async Task<bool> RemoveContact(long id)
+        public async Task<bool> RemoveContactAsync(long id)
         {
             try
             {
@@ -67,12 +60,11 @@ namespace AdressBook.Services
             }
         }
 
-        public async Task<bool> UpdateContact(ContactViewModel model)
+        public async Task<bool> UpdateContactAsync(ContactViewModel model)
         {
             try
             {
-                var contact = new Contact(model);
-                var isUpdated = _unitOfWork.Contacts.Update(contact);
+                var isUpdated = _unitOfWork.Contacts.Update(new Contact(model));
                 await _unitOfWork.CompleteAsync();
                 return isUpdated;
             }
