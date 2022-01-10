@@ -10,7 +10,7 @@ namespace AdressBook.Core.Repositories
         {
         }
 
-        public IEnumerable<Contact> All(string search)
+        public IEnumerable<Contact>? All(string search)
         {
             try
             {
@@ -20,7 +20,7 @@ namespace AdressBook.Core.Repositories
             }
             catch (Exception)
             {
-                return new List<Contact>();
+                return null;
             }
         }
     }

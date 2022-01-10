@@ -30,7 +30,7 @@ namespace AdressBook.Core.Repositories
             }
         }
 
-        public async Task<IEnumerable<T>> All()
+        public async Task<IEnumerable<T>?> All()
         {
             try
             {
@@ -38,7 +38,7 @@ namespace AdressBook.Core.Repositories
             }
             catch (Exception)
             {
-                return new List<T>();
+                return null;
             }
         }
 
@@ -59,7 +59,15 @@ namespace AdressBook.Core.Repositories
 
         public async Task<T?> GetById(long id)
         {
-            return await dbSet.FindAsync(id);
+            try
+            {
+                return await dbSet.FindAsync(id);
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
 
         public bool Update(T entity)

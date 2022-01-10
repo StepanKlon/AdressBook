@@ -27,12 +27,12 @@ namespace AdressBook.Services
             }
         }
 
-        public async Task<IEnumerable<Contact>> GetAllContactAsync()
+        public async Task<IEnumerable<Contact>?> GetAllContactAsync()
         {
-           return await _unitOfWork.Contacts.All();
+            return await _unitOfWork.Contacts.All();
         }
 
-        public IEnumerable<Contact> GetAllContact(string name)
+        public IEnumerable<Contact>? GetAllContact(string name)
         {
             return _unitOfWork.Contacts.All(name);
         }

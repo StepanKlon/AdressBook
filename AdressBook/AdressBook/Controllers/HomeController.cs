@@ -3,7 +3,6 @@ using AdressBook.Models;
 using AdressBook.Models.Entities;
 using AdressBook.Models.ViewModels;
 using AdressBook.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -11,19 +10,20 @@ namespace AdressBook.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IContactService _contactService;
 
-        public HomeController(ILogger<HomeController> logger, IContactService contactService)
+        public HomeController(IContactService contactService)
         {
-            _logger = logger;
             _contactService = contactService;
         }
 
         [HttpGet("/contacts")]
         public async Task<IActionResult> Index()
-        {   
-            return View(new IndexViewModel { Contacts = await _contactService.GetAllContactAsync() });
+        {
+            var contacts = await _contactService.GetAllContactAsync();
+            if (contacts is null)
+                return View("Error");
+            return View(new IndexViewModel { Contacts = contacts });
         }
 
         [HttpGet("/contacts/search")]
@@ -32,8 +32,10 @@ namespace AdressBook.Controllers
             var search = model.Search;
             if (search is null || search.Count() == 0)
                 return RedirectToAction("Index");
-            
-            return View("Index",new IndexViewModel { Contacts = _contactService.GetAllContact(search) });
+            var contacts = _contactService.GetAllContact(search);
+            if (contacts is null)
+                return View("Error");
+            return View("Index",new IndexViewModel { Contacts = contacts });
         }
 
         [HttpGet("/contacts/{id}")]

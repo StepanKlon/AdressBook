@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IContactService, ContactService>();
-ConfigureDatabase();
+InMemoryDbHelper.ConfigureDatabase(builder);
 
 var app = builder.Build();
 
@@ -20,12 +20,9 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    //app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 
@@ -35,17 +32,3 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
-
-void ConfigureDatabase()
-{
-    var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-    var connection = new SqliteConnection(connectionStringBuilder.ToString());
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connection));
-
-    var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
-    var context = new AppDbContext(options);
-
-    context.Database.OpenConnectionAsync();
-    context.Database.EnsureCreatedAsync();
-    InMemoryDbHelper.CreateBasicData(context);
-}
