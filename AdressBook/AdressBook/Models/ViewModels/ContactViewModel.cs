@@ -26,21 +26,5 @@ namespace AdressBook.Models.ViewModels
         public string? Adress { get; set; } = "";
         [StringLength(40)]
         public string? Comment { get; set; } = "";
-
-        public ContactViewModel(Contact contact)
-        {
-            Id = contact.Id;
-            FirstName = contact.FirstName;
-            LastName = contact.LastName;
-            DateOfBirth = contact.DateOfBirth;
-            PhoneNumber = contact.PhoneNumber;
-            Email = contact.Email;
-            Adress = contact.Adress;
-            Comment = contact.Comment;
-        }
-        public ContactViewModel()
-        {
-
-        }
     }
 }

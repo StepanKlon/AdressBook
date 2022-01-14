@@ -3,6 +3,7 @@ using AdressBook.Models;
 using AdressBook.Models.Entities;
 using AdressBook.Models.ViewModels;
 using AdressBook.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -11,10 +12,12 @@ namespace AdressBook.Controllers
     public class HomeController : Controller
     {
         private readonly IContactService _contactService;
+        private readonly IMapper _mapper;
 
-        public HomeController(IContactService contactService)
+        public HomeController(IContactService contactService, IMapper mapper)
         {
             _contactService = contactService;
+            _mapper = mapper;
         }
 
         [HttpGet("/contacts")]
@@ -44,7 +47,8 @@ namespace AdressBook.Controllers
             var contact = await _contactService.GetContactAsync(id);
             if (contact is null)
                 return View("Error");
-            return View("ContactView", new ContactViewModel(contact));
+            var contactViewModel = _mapper.Map<ContactViewModel>(contact);
+            return View("ContactView", contactViewModel);
         }
 
         [HttpPost("/contacts/{id}/delete")]
@@ -65,7 +69,8 @@ namespace AdressBook.Controllers
             var contact = await _contactService.GetContactAsync(id.Value);
             if (contact is null)
                 return View("Error");
-            return View("UpdateView", new ContactViewModel(contact));
+            var contactViewModel = _mapper.Map<ContactViewModel>(contact);
+            return View("UpdateView", contactViewModel);
         }
 
         [HttpPost("/contacts/{id}/edit")]

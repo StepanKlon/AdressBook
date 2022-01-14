@@ -1,6 +1,7 @@
 ﻿using AdressBook.Core.IConfiguration;
 using AdressBook.Models.Entities;
 using AdressBook.Models.ViewModels;
+using AutoMapper;
 using System.Collections.Generic;
 
 namespace AdressBook.Services
@@ -8,16 +9,20 @@ namespace AdressBook.Services
     public class ContactService : IContactService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ContactService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public ContactService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task<bool> AddContactAsync(ContactViewModel contact)
+        public async Task<bool> AddContactAsync(ContactViewModel contactVM)
         {
             try
             {
-                var isAdded = await _unitOfWork.Contacts.Add(new Contact(contact));
+                var contact = _mapper.Map<Contact>(contactVM);
+                var isAdded = await _unitOfWork.Contacts.Add(contact);
                 await _unitOfWork.CompleteAsync();
                 return isAdded;
             }
@@ -64,7 +69,8 @@ namespace AdressBook.Services
         {
             try
             {
-                var isUpdated = _unitOfWork.Contacts.Update(new Contact(model));
+                var contact = _mapper.Map<Contact>(model);
+                var isUpdated = _unitOfWork.Contacts.Update(contact);
                 await _unitOfWork.CompleteAsync();
                 return isUpdated;
             }
