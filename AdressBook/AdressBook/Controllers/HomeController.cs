@@ -5,7 +5,9 @@ using AdressBook.Models.ViewModels;
 using AdressBook.Services;
 using AutoMapper;
 using ClosedXML.Excel;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using System.Diagnostics;
 
 namespace AdressBook.Controllers
@@ -108,6 +110,43 @@ namespace AdressBook.Controllers
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
                 }
             }
+        }
+
+        [HttpGet("/SendEmail")]
+        public ActionResult ShowSendEmailView()
+        {
+            return View("Mail");
+        }
+
+        [HttpPost("/SendEmail")]
+        public ActionResult SendEmail(MailViewModel model)
+        {
+            MimeMessage message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Tester","anonymous@gmail.com"));
+            message.To.Add(MailboxAddress.Parse(model.MailDestiny));
+            message.Subject = model.Subject;
+            message.Body = new TextPart("plain")
+            {
+                Text = model.Body
+            };
+            SmtpClient client = new SmtpClient();
+            try
+            {
+                client.Connect("smtp.gmail.com", 465, true);
+                client.Authenticate("ficttest123@gmail.com","FictTest123*");
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                client.Disconnect(true);
+                client.Dispose();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

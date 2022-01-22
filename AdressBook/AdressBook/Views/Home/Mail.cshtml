@@ -1,0 +1,19 @@
+﻿@model MailViewModel
+@{
+    ViewData["Title"] = "Send Mail Page";
+}
+<form asp-controller="Home" asp-action="SendEmail" method="post">
+    <div class="mb-3 mt-3">
+        <label for="Email" class="form-label">Send to:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" asp-for="MailDestiny" required>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="Subject" class="form-label">Subject:</label>
+        <input type="text" class="form-control" id="Subject" placeholder="Enter subject: " asp-for="Subject" required>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="Body" class="form-label">Body:</label>
+        <textarea class="form-control" rows="5" id="Body" asp-for="Body"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
