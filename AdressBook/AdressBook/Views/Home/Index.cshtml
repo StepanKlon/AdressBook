@@ -5,6 +5,12 @@
 
 <div class="container mt-3">
     <h2>Adress Book</h2>
+    @if (Model?.Contacts.Count() != 0)
+    {
+        <form asp-controller="Home" asp-action="ExportData" method="get" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-info">Export</button>
+        </form>
+    }
     <table class="table table-hover">
         <thead>
             <tr>

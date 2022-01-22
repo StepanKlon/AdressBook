@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<IExportService, XLSXService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 InMemoryDbHelper.ConfigureDatabase(builder);
 

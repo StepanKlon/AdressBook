@@ -4,6 +4,7 @@ using AdressBook.Models.Entities;
 using AdressBook.Models.ViewModels;
 using AdressBook.Services;
 using AutoMapper;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,11 +14,13 @@ namespace AdressBook.Controllers
     {
         private readonly IContactService _contactService;
         private readonly IMapper _mapper;
+        private readonly IExportService _exportService;
 
-        public HomeController(IContactService contactService, IMapper mapper)
+        public HomeController(IContactService contactService, IMapper mapper, IExportService exportService)
         {
             _contactService = contactService;
             _mapper = mapper;
+            _exportService = exportService;
         }
 
         [HttpGet("/contacts")]
@@ -90,6 +93,21 @@ namespace AdressBook.Controllers
             if (!result)
                 return View("Error");
             return RedirectToAction("Index");
+        }
+        [HttpGet("/contacts/download")]
+        public async Task<ActionResult> ExportData()
+        {
+            var dataTable = await _exportService.getData();
+            var fileName = "adresses.xlsx";
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dataTable);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
         }
     }
 }
