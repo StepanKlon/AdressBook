@@ -10,11 +10,13 @@ namespace AdressBook.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<ContactService> _logger;
 
-        public ContactService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ContactService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ContactService> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<bool> AddContactAsync(ContactViewModel contactVM)
@@ -26,8 +28,9 @@ namespace AdressBook.Services
                 await _unitOfWork.CompleteAsync();
                 return isAdded;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError("Contact was not added with exeption {ex}", e);
                 return false;
             }
         }
@@ -58,9 +61,9 @@ namespace AdressBook.Services
                 await _unitOfWork.CompleteAsync();
                 return isRemoved;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                _logger.LogError("Contact was not removed with exeption {ex}", e);
                 return false;
             }
         }
@@ -74,9 +77,9 @@ namespace AdressBook.Services
                 await _unitOfWork.CompleteAsync();
                 return isUpdated;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                _logger.LogError("Contact was not updated with exeption {ex}", e);
                 return false;
             }
         }

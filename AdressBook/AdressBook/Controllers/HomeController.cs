@@ -17,12 +17,14 @@ namespace AdressBook.Controllers
         private readonly IContactService _contactService;
         private readonly IMapper _mapper;
         private readonly IExportService _exportService;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IContactService contactService, IMapper mapper, IExportService exportService)
+        public HomeController(IContactService contactService, IMapper mapper, IExportService exportService, ILogger<HomeController> logger)
         {
             _contactService = contactService;
             _mapper = mapper;
             _exportService = exportService;
+            _logger = logger;
         }
 
         [HttpGet("/contacts")]
@@ -147,6 +149,12 @@ namespace AdressBook.Controllers
                 client.Dispose();
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpGet("/home/error")]
+        public ActionResult ShowErrorSite()
+        {
+            return View("Error");
         }
     }
 }
